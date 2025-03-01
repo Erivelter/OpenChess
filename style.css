@@ -1,0 +1,10 @@
+/* .canvas{
+    width: 496px;
+    height: 496px;
+} */
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #302E2B;
+}
