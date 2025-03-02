@@ -8,5 +8,3 @@ const altura = 496;
 const board = new Board(canvas, largura, altura,8);
 board.draw();
 
-
-

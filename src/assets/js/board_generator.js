@@ -7,6 +7,7 @@ export class Board {
         this.height = height;
         this.blocks = blocks;
 
+        // Create canvas context
         this.canvas.width = width * window.devicePixelRatio;
         this.canvas.height = height * window.devicePixelRatio;
         this.canvas.style.width = width + "px";
@@ -23,9 +24,10 @@ export class Board {
                 i*this.width/this.blocks,
                 j*this.height/this.blocks,
                 this.width/this.blocks,
-                this.height/this.blocks);
+                this.height/this.blocks);}}
     }
-}
+    grid(){
+        let grid = Array(this.blocks).fill(null).map(()=> Array(this.blocks).fill(null));
     }
 }
 
