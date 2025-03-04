@@ -1,4 +1,5 @@
-import { torre, bispo, rainha, cavalo, peao, rei } from "./rules.js";
+import { pieces } from "./rules.js";
+
 export class Board {
     constructor(canvas, width, height,blocks) {
         this.canvas = canvas;
@@ -38,8 +39,7 @@ export class Board {
         // grid[7][4] = new Rei("branco", "rei", 7, 4);
     }
     initPieces() {
-        // Adiciona as peças no tabuleiro
-        this.pieces.push(torre, bispo, rainha, cavalo, peao, rei);
+        this.pieces = pieces;
     }
 }
 
