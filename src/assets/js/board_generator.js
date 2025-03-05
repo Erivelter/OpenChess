@@ -10,6 +10,9 @@ export class Board {
         this.tileSize = width / blocks;
         this.pieces = [];
 
+        this.grid = Array(this.blocks).fill(null).map(() => Array(this.blocks).fill(null));
+
+
         // Create canvas context
         this.canvas.width = width * window.devicePixelRatio;
         this.canvas.height = height * window.devicePixelRatio;
@@ -31,16 +34,14 @@ export class Board {
                 this.height/this.blocks);}}
     this.pieces.forEach(piece => piece.draw(this.ctx, this.tileSize));
     }    
-    
-    grid(){
-        return Array(this.blocks).fill(null).map(()=> Array(this.blocks).fill(null));
-        
-        // grid[0][4] = new Rei("preto", "rei", 0, 4);
-        // grid[7][4] = new Rei("branco", "rei", 7, 4);
-    }
+
     initPieces() {
-        this.pieces = pieces;
-    }
+    this.pieces = pieces;
+    this.pieces.forEach(piece => {
+        this.grid[piece.position.y][piece.position.x] = piece;
+         // Adiciona as peças na matriz
+    });
+}
 }
 
 
