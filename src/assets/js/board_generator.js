@@ -33,7 +33,23 @@ export class Board {
                 this.width/this.blocks,
                 this.height/this.blocks);}}
     this.pieces.forEach(piece => piece.draw(this.ctx, this.tileSize));
-    }    
+    }
+    drawPossibleMoves(moves) {
+        this.ctx.fillStyle = "rgba(0, 255, 0, 0.5)"; // Cor semi-transparente
+    
+        moves.forEach(move => {
+            this.ctx.beginPath();
+            this.ctx.arc(
+                (move.x + 0.5) * this.tileSize,  // Centraliza no quadrado
+                (move.y + 0.5) * this.tileSize,
+                this.tileSize / 4,  // Tamanho do círculo
+                0,
+                2 * Math.PI
+            );
+            this.ctx.fill();
+        });
+    }
+      
 
     initPieces() {
     this.pieces = pieces;
@@ -42,6 +58,37 @@ export class Board {
          // Adiciona as peças na matriz
     });
 }
+    // Implemetar movimento as peças clicadas
+    movePiece(fromX, fromY, toX, toY) {
+        let piece = this.grid[fromY][fromX];
+    
+        // Verifica se a peça existe antes de tentar mover
+        if (!piece) {
+            console.error("Nenhuma peça encontrada na posição de origem.");
+            return;
+        }
+    
+        let type = piece.type;
+        let moves = piece.move(this.grid);
+        
+        let isValidMove = moves.some(move => move.x === toX && move.y === toY);
+        
+        if (isValidMove) {
+            // Verifica se a posição de destino está vazia (não é null)
+            if (this.grid[toY][toX] !== null) {
+                console.log(`Movendo peça de (${fromX}, ${fromY}) para (${toX}, ${toY})`);
+            }
+    
+            // Mover a peça
+            this.grid[fromY][fromX] = null; // Remove a peça da posição original
+            this.grid[toY][toX] = piece;   // Coloca a peça na nova posição
+            piece.position = { x: toX, y: toY }; // Atualiza a posição da peça
+    
+            this.draw(); // Redesenha o tabuleiro
+        } else {
+            console.error("Movimento inválido.");
+        }
+    }
+    
 }
-
 

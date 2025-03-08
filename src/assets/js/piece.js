@@ -12,7 +12,15 @@ export class Piece{//valid for all types piece except king
 
     }
     draw(ctx, tileSize) {
-        this.getImagePath()
+    if (this.image.complete) {
+        ctx.drawImage(
+            this.image,
+            this.position.x * tileSize,
+            this.position.y * tileSize,
+            tileSize,
+            tileSize
+        );
+    } else {
         this.image.onload = () => {
             ctx.drawImage(
                 this.image,
@@ -21,7 +29,10 @@ export class Piece{//valid for all types piece except king
                 tileSize,
                 tileSize
             );
-        };}
+        };
+    }
+}
+
     move(grid) {
         let moves = [];
         let { x, y } = this.position;
