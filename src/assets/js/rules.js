@@ -5,7 +5,13 @@ const rulesRook = [{ type: "slide", directions: [[1, 0], [-1, 0], [0, 1], [0, -1
 const rulesBishop = [{ type: "slide", directions: [[1, 1], [-1, -1], [1, -1], [-1, 1]] }];
 const rulesQueen = [...rulesRook, ...rulesBishop]; // Rainha combina as regras de torre e bispo
 const rulesKnight = [{ type: "step", moves: [[-2, -1], [-2, 1], [2, -1], [2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2]] }];
-const rulesPawn = [{ type: "pawn" }];
+const rulesPawn = [{
+    type: "pawn",
+    directions: [[0, 1], [0, 2]],  // Movimentos em linha reta (uma casa e duas casas)
+    attack: [[-1, 1], [1, 1]],      // Ataques nas diagonais
+    firstMove: true                 // Marca que o peão pode se mover duas casas no primeiro movimento
+}];
+
 const rulesKing = [{ type: "step", moves: [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]] }];
 
 // Criando peças com caminhos de imagem automáticos

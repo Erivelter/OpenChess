@@ -1,4 +1,6 @@
+// script.js
 import { Board } from "./src/assets/js/board_generator.js";
+import { Game } from "./src/assets/js/game.js"; // Importa o arquivo game.js
 
 const canvas = document.querySelector("canvas");
 
@@ -8,33 +10,10 @@ const altura = 496;
 const board = new Board(canvas, largura, altura, 8);
 board.draw();
 
-let selectedPiece = null;
-let selectedPosition = null;
+// Cria a instância do jogo
+const game = new Game(board);
 
-// Pega as coordenadas do click no canvas
-canvas.addEventListener("click", click => {
-    const rect = canvas.getBoundingClientRect();
-    const x = click.clientX - rect.left;
-    const y = click.clientY - rect.top;
-    const tileX = Math.floor(x / board.tileSize);
-    const tileY = Math.floor(y / board.tileSize);
-
-    if (!selectedPiece) {
-        // Primeiro clique: Seleciona a peça
-        let piece = board.grid[tileY][tileX];
-        if (piece) {
-            selectedPiece = piece;
-            selectedPosition = { x: tileX, y: tileY };
-            console.log(`Selecionado: ${piece.type} em (${tileX}, ${tileY})`);
-            // Mostra os movimentos possíveis para a peça selecionada
-            board.drawPossibleMoves(piece.move(board.grid));
-        }
-    } else {
-        // Segundo clique: Tenta mover a peça
-        // Aqui, chamamos o movePiece passando as coordenadas originais da peça e o destino
-        board.movePiece(selectedPosition.x, selectedPosition.y, tileX, tileY);
-        // Resetar seleção após a jogada
-        selectedPiece = null;
-        selectedPosition = null;
-    }
+// Adiciona o evento de clique no canvas
+canvas.addEventListener("click", (click) => {
+    game.handleClick(click); // Lida com o clique usando o Game
 });

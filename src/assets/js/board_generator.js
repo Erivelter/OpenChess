@@ -61,7 +61,7 @@ export class Board {
     // Implemetar movimento as peças clicadas
     movePiece(fromX, fromY, toX, toY) {
         let piece = this.grid[fromY][fromX];
-    
+        
         // Verifica se a peça existe antes de tentar mover
         if (!piece) {
             console.error("Nenhuma peça encontrada na posição de origem.");
@@ -70,6 +70,7 @@ export class Board {
     
         let type = piece.type;
         let moves = piece.move(this.grid);
+        
         
         let isValidMove = moves.some(move => move.x === toX && move.y === toY);
         
@@ -83,7 +84,8 @@ export class Board {
             this.grid[fromY][fromX] = null; // Remove a peça da posição original
             this.grid[toY][toX] = piece;   // Coloca a peça na nova posição
             piece.position = { x: toX, y: toY }; // Atualiza a posição da peça
-    
+            
+            
             this.draw(); // Redesenha o tabuleiro
         } else {
             console.error("Movimento inválido.");

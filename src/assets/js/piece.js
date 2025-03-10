@@ -1,27 +1,20 @@
-export class Piece{//valid for all types piece except king
-    constructor(color, type, position, rules){
+export class Piece {
+    constructor(color, type, position, rules) {
         this.color = color;
         this.type = type;
         this.position = position;
         this.rules = rules;
+        this.firstMove = true;
         this.image = new Image();
         this.image.src = this.getImagePath();
     }
+
     getImagePath() {
         return `resources/${this.color}-${this.type}.svg`;
-
     }
+
     draw(ctx, tileSize) {
-    if (this.image.complete) {
-        ctx.drawImage(
-            this.image,
-            this.position.x * tileSize,
-            this.position.y * tileSize,
-            tileSize,
-            tileSize
-        );
-    } else {
-        this.image.onload = () => {
+        if (this.image.complete) {
             ctx.drawImage(
                 this.image,
                 this.position.x * tileSize,
@@ -29,9 +22,18 @@ export class Piece{//valid for all types piece except king
                 tileSize,
                 tileSize
             );
-        };
+        } else {
+            this.image.onload = () => {
+                ctx.drawImage(
+                    this.image,
+                    this.position.x * tileSize,
+                    this.position.y * tileSize,
+                    tileSize,
+                    tileSize
+                );
+            };
+        }
     }
-}
 
     move(grid) {
         let moves = [];
@@ -41,7 +43,6 @@ export class Piece{//valid for all types piece except king
             let nx = x, ny = y;
 
             if (rule.type === "step") {
-                // Movimento fixo (ex: rei, cavalo)
                 for (let [dx, dy] of rule.moves) {
                     let newX = x + dx, newY = y + dy;
                     if (this.isValidMove(newX, newY, grid)) {
@@ -49,7 +50,6 @@ export class Piece{//valid for all types piece except king
                     }
                 }
             } else if (rule.type === "slide") {
-                // Movimento deslizante (ex: torre, bispo, rainha)
                 for (let [dx, dy] of rule.directions) {
                     nx = x, ny = y;
                     while (true) {
@@ -57,45 +57,43 @@ export class Piece{//valid for all types piece except king
                         ny += dy;
                         if (!this.isValidMove(nx, ny, grid)) break;
                         moves.push({ x: nx, y: ny });
-                        if (grid[nx][ny]) break; // Para se encontrar uma peça
+                        if (grid[ny][nx]) break;
                     }
                 }
             } else if (rule.type === "pawn") {
-                // Movimento especial para peões
-                let direction = this.color === "branco" ? -1 : 1;
-                let startRow = this.color === "branco" ? 6 : 1;
+                let direction = this.color === "white" ? 1 : -1;
+                
+                // Movimento normal de 1 casa
+                let newX = x, newY = y + direction;
+                if (this.isValidMove(newX, newY, grid) && !grid[newY][newX]) {
+                    moves.push({ x: newX, y: newY });
+                }
 
-                // Movimento normal
-                if (!grid[x + direction][y]) {
-                    moves.push({ x: x + direction, y: y });
-
-                    // Movimento duplo no primeiro movimento
-                    if (x === startRow && !grid[x + 2 * direction][y]) {
-                        moves.push({ x: x + 2 * direction, y: y });
+                // Movimento inicial de 2 casas
+                if (this.firstMove) {
+                    let newY2 = y + 2 * direction;
+                    if (this.isValidMove(newX, newY2, grid) && !grid[newY2][newX] && !grid[newY][newX]) {
+                        moves.push({ x: newX, y: newY2 });
                     }
                 }
 
                 // Captura diagonal
-                for (let dy of [-1, 1]) {
-                    let captureX = x + direction, captureY = y + dy;
-                    if (grid[captureX] && grid[captureX][captureY]) {
-                        let peca = grid[captureX][captureY];
-                        if (peca && peca.color !== this.color) {
-                            moves.push({ x: captureX, y: captureY });
-                        }
+                for (let dx of [-1, 1]) {
+                    let captureX = x + dx, captureY = y + direction;
+                    if (this.isValidMove(captureX, captureY, grid) && grid[captureY]?.[captureX] && grid[captureY][captureX].color !== this.color) {
+                        moves.push({ x: captureX, y: captureY });
                     }
                 }
             }
         }
-
         return moves;
     }
 
     isValidMove(x, y, grid) {
-        return x >= 0 && x < 8 && y >= 0 && y < 8 &&
-            (!grid[x][y] || grid[x][y].color !== this.color);
+        return x >= 0 && x < 8 && y >= 0 && y < 8 && (!grid[y][x] || grid[y][x].color !== this.color);
     }
 }
+
 export class King extends Piece {
     constructor(color, position) {
         super(color, "king", position, [
