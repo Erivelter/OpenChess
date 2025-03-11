@@ -41,10 +41,11 @@ export class Game {
     movePiece(toX, toY) {
         if (this.selectedPiece) {
             const { x, y } = this.selectedPosition;
-            this.board.movePiece(x, y, toX, toY);
+            const moved = this.board.movePiece(x, y, toX, toY);
+            if (moved){
             this.selectedPiece = null;
             this.selectedPosition = null;
-            this.toggleTurn();
+            this.toggleTurn();}
         }
     }
     toggleTurn() {
