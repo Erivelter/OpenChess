@@ -1,26 +1,36 @@
+html, body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #302E2B;
     margin: 0;
-    padding: 10px;
+    padding: 2vh;
 }
 
 #captured-white, #captured-black {
     display: flex;
-    gap: 5px;
-    padding: 10px;
-    width: 100%;
+    gap: 0.5vw;
+    padding: 1vh;
+    width: 90%;
     justify-content: center;
-    min-height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    min-height: 5vh;
+    background: rgba(209, 148, 148, 0.1);
+    border-radius: 0.5vw;
+    height: 2vh;
 }
 
 .captured-piece-image {
-    width: 40px;
-    height: 40px;
+    width: 3vw;
+    height: 3vw;
+    max-width: 50px;
+    max-height: 50px;
     object-fit: contain;
 }
 
@@ -29,33 +39,37 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 20px;
+    width: 30vw;
+    max-width: 300px;
+    padding: 2vh;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 1vw;
+    box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.5);
     display: none;
     z-index: 100;
     font-family: monospace;
 }
 
 #captured-pieces {
-    margin-top: 15px;
+    display: none !important;
+    margin-top: 1.5vh;
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: 0.5vw;
 }
 
 #captured-pieces img {
-    width: 30px;
-    height: 30px;
-
-    filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.5));
+    width: 3vw;
+    height: 3vw;
+    max-width: 30px;
+    max-height: 30px;
+    filter: drop-shadow(0px 0px 0.5vw rgba(255, 255, 255, 0.5));
 }
+
 #restart-button {
     display: none;
     position: absolute;
@@ -65,11 +79,11 @@ body {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 1vh 2vw;
+    font-size: 1.5rem;
     cursor: pointer;
-    margin-top: 15px;
-    border-radius: 5px;
+    margin-top: 1.5vh;
+    border-radius: 0.5vw;
     z-index: 100;
 }
 
@@ -77,3 +91,20 @@ body {
     background-color: #45a049;
 }
 
+@media (max-width: 600px) {
+    #victory-message {
+        width: 80%;
+        font-size: 1.5rem;
+    }
+
+    .captured-piece-image,
+    #captured-pieces img {
+        width: 7vw;
+        height: 7vw;
+    }
+
+    #restart-button {
+        font-size: 1.2rem;
+        padding: 1vh 3vw;
+    }
+}

@@ -1,6 +1,4 @@
-import { Piece } from "./piece.js";
 import { pieces } from "./rules.js";
-
 
 export class Board {
     constructor(canvas, width, height,blocks) {

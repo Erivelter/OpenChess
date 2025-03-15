@@ -1,4 +1,3 @@
-// script.js
 import { Board } from "./src/assets/js/board_generator.js";
 import { Game } from "./src/assets/js/game.js"; // Importa o arquivo game.js
 
