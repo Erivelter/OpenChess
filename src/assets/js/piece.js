@@ -94,10 +94,12 @@ export class Piece {
     }
     capture(targetPiece,board){
         if (!targetPiece) return
+        board.capturedPieces.push(targetPiece);
         console.log(`Capturando ${targetPiece.type} em ${targetPiece.position.x}, ${targetPiece.position.y}`);
         board.grid[targetPiece.position.y][targetPiece.position.x] = null;
         // Remove do array de peças
         board.pieces = board.pieces.filter(p => p !== targetPiece);
+        board.displayCapturedPieces();
     }
 }
 export class King extends Piece {

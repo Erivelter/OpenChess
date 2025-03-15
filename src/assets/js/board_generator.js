@@ -1,4 +1,6 @@
+import { Piece } from "./piece.js";
 import { pieces } from "./rules.js";
+
 
 export class Board {
     constructor(canvas, width, height,blocks) {
@@ -9,6 +11,7 @@ export class Board {
         this.blocks = blocks;
         this.tileSize = width / blocks;
         this.pieces = [];
+        this.capturedPieces = [];
 
         this.grid = Array(this.blocks).fill(null).map(() => Array(this.blocks).fill(null));
 
@@ -86,5 +89,35 @@ export class Board {
         this.draw(); 
         return true; 
     }
+    displayCapturedPieces() {
+        const whiteDiv = document.getElementById("captured-white");
+        const blackDiv = document.getElementById("captured-black");
+    
+        whiteDiv.innerHTML = ""; 
+        blackDiv.innerHTML = "";
+    
+        this.capturedPieces.forEach(piece => {
+            const pieceElement = document.createElement("div");
+            const imagepiece = document.createElement("img");
+    
+            if (typeof piece.getImagePath === "function") {
+                imagepiece.src = piece.getImagePath();
+            } else {
+                console.error("Erro: getImagePath() não está definido para", piece);
+                return;
+            }
+    
+            imagepiece.alt = piece.type;
+            imagepiece.classList.add("captured-piece-image");
+            pieceElement.appendChild(imagepiece);
+    
+            if (piece.color === "white") {
+                whiteDiv.appendChild(pieceElement);
+            } else {
+                blackDiv.appendChild(pieceElement);
+            }
+        });
+    }
+    
+    
 }    
-
