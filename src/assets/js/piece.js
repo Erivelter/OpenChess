@@ -70,7 +70,7 @@ export class Piece {
                 }
 
                 // Movimento inicial de 2 casas
-                if (this.firstMove) {
+                if (this.firstMove && ((this.color === "white" && y === 1) || (this.color === "black" && y === 6))) { 
                     let newY2 = y + 2 * direction;
                     if (this.isValidMove(newX, newY2, grid) && !grid[newY2][newX] && !grid[newY][newX]) {
                         moves.push({ x: newX, y: newY2 });

@@ -17,3 +17,8 @@ const game = new Game(board);
 canvas.addEventListener("click", (click) => {
     game.handleClick(click); // Lida com o clique usando o Game
 });
+
+document.getElementById("restart-button").addEventListener("click", () => {
+    location.reload();
+});
+

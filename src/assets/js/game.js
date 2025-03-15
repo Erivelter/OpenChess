@@ -51,6 +51,7 @@ export class Game {
             if (moved){
             this.selectedPiece = null;
             this.selectedPosition = null;
+            if (this.checkVictory()) return;
             this.board.clearPossibleMoves();
             this.toggleTurn();}
         }
@@ -62,6 +63,41 @@ export class Game {
     }
     getCurrentTurn() {
         return this.turn;
+    }
+
+    checkVictory() {
+        const hasWhiteKing = this.board.pieces.some(piece => piece.type === "king" && piece.color === "white");
+        const hasBlackKing = this.board.pieces.some(piece => piece.type === "king" && piece.color === "black");
+        
+        let messageElement = document.getElementById("victory-message");
+        let capturedContainer = document.getElementById("captured-pieces");
+        let restartButton = document.getElementById("restart-button");
+
+        capturedContainer.innerHTML = "";
+
+
+        if (!hasWhiteKing) {
+            console.log("Vitória das peças pretas!");
+            messageElement.textContent = "Vitória das peças pretas!";
+            messageElement.style.display = "block";
+            restartButton.style.display = "block";
+            return true; 
+        }
+        if (!hasBlackKing) {
+            console.log("Vitória das peças brancas!");
+            messageElement.textContent = "Vitória das peças brancas!";
+            messageElement.style.display = "block";
+            restartButton.style.display = "block";
+            return true;
+        }
+        this.board.capturedPieces.forEach(piece => {
+            let img = document.createElement("img");
+            img.src = piece.getImagePath();
+            capturedContainer.appendChild(img);
+        });
+    
+        return !hasWhiteKing || !hasBlackKing;
+    
     }
 
 }
