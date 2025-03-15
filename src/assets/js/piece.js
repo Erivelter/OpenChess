@@ -74,7 +74,7 @@ export class Piece {
                     let newY2 = y + 2 * direction;
                     if (this.isValidMove(newX, newY2, grid) && !grid[newY2][newX] && !grid[newY][newX]) {
                         moves.push({ x: newX, y: newY2 });
-                    }
+                    }   
                 }
 
                 // Captura diagonal
@@ -92,8 +92,14 @@ export class Piece {
     isValidMove(x, y, grid) {
         return x >= 0 && x < 8 && y >= 0 && y < 8 && (!grid[y][x] || grid[y][x].color !== this.color);
     }
+    capture(targetPiece,board){
+        if (!targetPiece) return
+        console.log(`Capturando ${targetPiece.type} em ${targetPiece.position.x}, ${targetPiece.position.y}`);
+        board.grid[targetPiece.position.y][targetPiece.position.x] = null;
+        // Remove do array de peças
+        board.pieces = board.pieces.filter(p => p !== targetPiece);
+    }
 }
-
 export class King extends Piece {
     constructor(color, position) {
         super(color, "king", position, [

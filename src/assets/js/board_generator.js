@@ -72,6 +72,12 @@ export class Board {
             console.error("Movimento inválido. Tente novamente.");
             return false; 
         }
+        let targetPiece = this.grid[toY][toX];
+
+        if (targetPiece && targetPiece.color !== piece.color) {
+            piece.capture(targetPiece, this);
+            console.log(`Peça ${targetPiece.type} capturada!`);
+        }
         // Mover a peça (só ocorre se o movimento for válido)
         this.grid[fromY][fromX] = null;
         this.grid[toY][toX] = piece;
