@@ -14,14 +14,19 @@ export class Game {
         const y = click.clientY - rect.top;
         const tileX = Math.floor(x / this.board.tileSize);
         const tileY = Math.floor(y / this.board.tileSize);
-
-        if (!this.selectedPiece) {
-            this.selectPiece(tileX, tileY);
-        } else {
+    
+        const clickedPiece = this.board.grid[tileY][tileX];
+        if (this.selectedPiece) {
+            if (clickedPiece && clickedPiece.color === this.currentPlayer) {
+                this.selectPiece(tileX, tileY);
+                return;
+            }
             this.movePiece(tileX, tileY);
+        } else {
+            this.selectPiece(tileX, tileY);
         }
     }
-
+    
     // Seleciona a peça no tabuleiro
     selectPiece(tileX, tileY) {
         const piece = this.board.grid[tileY][tileX];
@@ -30,6 +35,7 @@ export class Game {
                 console.log("Não é a vez do jogador atual!")
                 return;}
 
+            this.board.clearPossibleMoves()
             this.selectedPiece = piece;
             this.selectedPosition = { x: tileX, y: tileY };
             console.log(`Selecionado: ${piece.type} em (${tileX}, ${tileY})`);
@@ -45,6 +51,7 @@ export class Game {
             if (moved){
             this.selectedPiece = null;
             this.selectedPosition = null;
+            this.board.clearPossibleMoves();
             this.toggleTurn();}
         }
     }
@@ -56,4 +63,5 @@ export class Game {
     getCurrentTurn() {
         return this.turn;
     }
+
 }

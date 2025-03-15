@@ -38,6 +38,7 @@ export class Board {
     this.pieces.forEach(piece => piece.draw(this.ctx, this.tileSize));
     }
     drawPossibleMoves(moves) {
+        this.clearPossibleMoves()
         this.ctx.fillStyle = "rgba(0, 255, 0, 0.5)"; // Cor semi-transparente
     
         moves.forEach(move => {
@@ -52,7 +53,7 @@ export class Board {
             this.ctx.fill();
         });
     }
-      
+clearPossibleMoves = () => this.draw();
 
     initPieces() {
     this.pieces = pieces;
